@@ -1,7 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
 
+import {Input, Layout, Menu, Row} from 'antd';
 import Recipe from "./Components/Recipe";
+
+const { Search } = Input;
+const {Header, Footer, Content} = Layout;
 
 const App = () => {
   const APP_ID = "35ed8fd1";
@@ -10,7 +14,6 @@ const App = () => {
   const [recipes, setRecipes] = useState([]);
   const [search, setSearch] = useState('');
   const [query, setQuery] = useState('chicken');
-
 
   useEffect( () => {
       getRecipes();
@@ -22,26 +25,37 @@ const App = () => {
     setRecipes(data.hits)
   };
 
-  const updateSearch = e => {
-      setSearch(e.target.value)
-  };
-  const getSearch = e => {
-      e.preventDefault(); // Prevent page refresh
-      setQuery(search); // Set the query to search value when user submitted
-  };
-
-
   return (
       <div className="App">
-        <form className="search-form" onSubmit={getSearch}>
-          <input className="search-bar"
-                 type="text"
-                 value={search}
-                 onChange={updateSearch}/>
-          <button  className="search-button" type="submit">
-            Search
-          </button>
-        </form>
+          <Layout className="layout">
+              <Header>
+                  <Search placeholder="input search text"
+                          value={search}
+                          onChange={e => setSearch(e.target.value)} // Sets search bar value to be what was found in search bar
+                          onSearch={e => {
+                              e.preventDefault(); // Prevent page refresh
+                              setQuery(search); // Set the query to search value when user submitted }
+                          }}
+                          enterButton />
+                  <Menu
+                      mode="horizontal"
+                      defaultSelectedKeys={["1"]}
+                  >
+                      <Menu.Item key="1">Home</Menu.Item>
+                      <Menu.Item key="2">About</Menu.Item>
+                  </Menu>
+              </Header>
+              <Content>
+                  <div style={{background: '#fff', padding: "1em", minHeight: "100vh" }}>
+                      <Row gutter={[16, 16]}>
+                        <Recipe/>
+                      </Row>
+                  </div>
+                  <Recipe/>
+              </Content>
+              <Footer style={{ textAlign: 'center' }}>React Recipe ©2020 Created by George Teo</Footer>
+          </Layout>
+
         {recipes.map(recipe => (
             <Recipe key={recipe.recipe.label}
                     label={recipe.recipe.label}
@@ -57,8 +71,24 @@ const App = () => {
                     healthLabels={recipe.recipe.healthLabels} // Array of allergy concerns
             />
           ))}
+
+          {/*<div>*/}
+          {/*    <form className="search-form"*/}
+          {/*          onSubmit={ e => {*/}
+          {/*              e.preventDefault(); // Prevent page refresh*/}
+          {/*              setQuery(search); // Set the query to search value when user submitted }*/}
+          {/*          }}>*/}
+          {/*        <input className="search-bar"*/}
+          {/*               type="text"*/}
+          {/*               value={search}*/}
+          {/*               onChange={e => setSearch(e.target.value)}/>*/}
+          {/*        <button  className="search-button" type="submit">*/}
+          {/*            Search*/}
+          {/*        </button>*/}
+          {/*    </form>*/}
+          {/*</div>*/}
       </div>
   )
-}
+};
 
 export default App;
