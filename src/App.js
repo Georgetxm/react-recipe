@@ -34,12 +34,14 @@ const App = () => {
                           span={8}
                           value={search}
                           onChange={e => setSearch(e.target.value)} // Sets search bar value to be what was found in search bar
-                          onSearch={e => {e.preventDefault(); // Prevent page refresh
+                          onSearch={e => {
+                              // e.preventDefault(); // Prevent page refresh
                               setQuery(search); // Set the query to search value when user submitted }
                           }}
                           enterButton />
               </Header>
               <Content>
+                  <div style={{background: '#fff', padding: "1em"}}>
                       <Row gutter={[24, 24]}>
                           {recipes.map(recipe => (
                               <Recipe key={recipe.recipe.label}
@@ -57,6 +59,7 @@ const App = () => {
                               />
                           ))}
                       </Row>
+                  </div>
               </Content>
               <Footer style={{ textAlign: 'center' }}>React Recipe ©2020 Created by George Teo</Footer>
           </Layout>
