@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
 
-import {Input, Layout, Menu, Row} from 'antd';
+import {Input, Layout, Menu, Row, Col} from 'antd';
 import Recipe from "./Components/Recipe";
 
 const { Search } = Input;
@@ -30,47 +30,38 @@ const App = () => {
           <Layout className="layout">
               <Header>
                   <Search placeholder="input search text"
+                          style={{padding: "1em"}}
+                          span={8}
                           value={search}
                           onChange={e => setSearch(e.target.value)} // Sets search bar value to be what was found in search bar
-                          onSearch={e => {
-                              e.preventDefault(); // Prevent page refresh
+                          onSearch={e => {e.preventDefault(); // Prevent page refresh
                               setQuery(search); // Set the query to search value when user submitted }
                           }}
                           enterButton />
-                  <Menu
-                      mode="horizontal"
-                      defaultSelectedKeys={["1"]}
-                  >
-                      <Menu.Item key="1">Home</Menu.Item>
-                      <Menu.Item key="2">About</Menu.Item>
-                  </Menu>
               </Header>
               <Content>
-                  <div style={{background: '#fff', padding: "1em", minHeight: "100vh" }}>
-                      <Row gutter={[16, 16]}>
-                        <Recipe/>
+                      <Row gutter={[24, 24]}>
+                          {recipes.map(recipe => (
+                              <Recipe key={recipe.recipe.label}
+                                      label={recipe.recipe.label}
+                                      image={recipe.recipe.image}
+                                      calories={recipe.recipe.calories}
+                                      ingredients={recipe.recipe.ingredients} // Array of ingredients - text, weight
+                                      steps={recipe.recipe.ingredientLines} // Array of steps
+                                      time={recipe.recipe.totalTime}
+                                      serves={recipe.recipe.yield}
+                                      percentDaily={recipe.recipe.totalDaily}
+                                      totalDaily={recipe.recipe.totalNutrients}
+                                      dietLabels={recipe.recipe.dietLabels} // Array of Keto/Low-Carb, etc.
+                                      healthLabels={recipe.recipe.healthLabels} // Array of allergy concerns
+                              />
+                          ))}
                       </Row>
-                  </div>
-                  <Recipe/>
               </Content>
               <Footer style={{ textAlign: 'center' }}>React Recipe ©2020 Created by George Teo</Footer>
           </Layout>
 
-        {recipes.map(recipe => (
-            <Recipe key={recipe.recipe.label}
-                    label={recipe.recipe.label}
-                    image={recipe.recipe.image}
-                    calories={recipe.recipe.calories}
-                    ingredients={recipe.recipe.ingredients} // Array of ingredients - text, weight
-                    steps={recipe.recipe.ingredientLines} // Array of steps
-                    time={recipe.recipe.totalTime}
-                    serves={recipe.recipe.yield}
-                    percentDaily={recipe.recipe.totalDaily}
-                    totalDaily={recipe.recipe.totalNutrients}
-                    dietLabels={recipe.recipe.dietLabels} // Array of Keto/Low-Carb, etc.
-                    healthLabels={recipe.recipe.healthLabels} // Array of allergy concerns
-            />
-          ))}
+
 
           {/*<div>*/}
           {/*    <form className="search-form"*/}
