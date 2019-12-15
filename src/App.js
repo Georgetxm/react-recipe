@@ -3,6 +3,7 @@ import './App.css';
 
 import {Input, Layout, Menu, Row, Col} from 'antd';
 import Recipe from "./Components/Recipe";
+import FormHolder from "./Components/FormHolder";
 
 const { Search } = Input;
 const {Header, Footer, Content} = Layout;
